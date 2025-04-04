@@ -6,9 +6,14 @@ import ArrayState from './ArrayState.jsx'
 import { Ref } from './Ref.jsx'
 import DraggableApp from './DraggableApp.jsx'
 import { TodoList } from './TodoList.jsx'
+import Accordion from './Accordion.tsx'
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-    <TodoList />
+  <TodoList />
   // </StrictMode>,
+
+
+
+
 )

@@ -1,12 +1,16 @@
 
-import { useRef, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import './App.css';
 import { Todo } from './Todo';
+import { TodoItem } from './interfaces';
+import { ADD_TODO, EDIT_TODO, TodoReducer, TOGGLE_TODO } from './TodoUtilities';
+
+
 export const TodoList = () => {
-    const [todos, setTodos] = useState([]);
+    const [todos, dispatch] = useReducer(TodoReducer,[]);
     const [newTodoTitle, setNewTodoTitle] = useState('');
     const nextId = useRef(0);
-    const addTodo = (e)=>{
+    const addTodo = (e: React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         nextId.current += 1;
         const todo = {
@@ -15,16 +19,15 @@ export const TodoList = () => {
             isCompleted: false
         }
         setNewTodoTitle("");
-        setTodos([...todos,todo])
+        dispatch({type: ADD_TODO,payload: todo});
     }
 
-    function editTodo(id,newTitle){
+    function editTodo(id: number,newTitle: string){
         console.log(id,newTitle);
-        
-        setTodos(todos.map(todo => todo.id === id ? {...todo,title: newTitle} : todo))
+        dispatch({type: EDIT_TODO,payload: {id,newTitle}});
     }
-    function toggleTodoStatus(id,newStatus){
-        setTodos(todos.map(todo => todo.id === id ? {...todo,isCompleted: newStatus} : todo))
+    function toggleTodoStatus(id: number,newStatus: boolean){
+        dispatch({type: TOGGLE_TODO,payload: {id,newStatus}});
     }
   return (
     <div className="todo-app">
